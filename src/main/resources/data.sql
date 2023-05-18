@@ -1,0 +1,1 @@
+INSERT INTO tb_user (user_name, email, password, securityLevel, phone) VALUES ("Teste teste", "teste@teste.com", "123@abc", 0, "123456789");

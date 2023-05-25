@@ -32,4 +32,10 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow();
         return new UserDTO(user);
     }
+
+    public UserDTO delete(Long id) {
+        UserDTO userDTO = findById(id);
+        userRepository.deleteById(id);
+        return userDTO;
+    }
 }

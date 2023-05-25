@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+    db:
+        restart: always
+        container_name: monitoria-db
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: monitoria
+            MYSQL_PASSWORD: root
+        volumes:
+            - ./data:/var/lib/mysql

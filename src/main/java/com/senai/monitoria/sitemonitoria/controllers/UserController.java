@@ -15,24 +15,28 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserDTO> findAll(){
+    public List<UserDTO> findAll() {
         return userService.findAll();
     }
 
     @PostMapping
-    public @ResponseBody UserDTO save(@RequestBody UserDTO userDTO){
+    public @ResponseBody UserDTO save(@RequestBody UserDTO userDTO) {
         return userService.save(userDTO);
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody UserDTO update(@RequestBody UserDTO userDTO){
+    public @ResponseBody UserDTO update(@RequestBody UserDTO userDTO) {
         return userService.save(userDTO);
     }
 
     @GetMapping(value = "/{id}")
-    public UserDTO findById(@PathVariable Long id){
+    public UserDTO findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public UserDTO delete(@PathVariable Long id) {
+        return userService.delete(id);
+    }
 
 }

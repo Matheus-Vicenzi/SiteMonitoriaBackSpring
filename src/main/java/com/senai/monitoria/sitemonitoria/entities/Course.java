@@ -11,7 +11,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long courseId;
     private String courseName;
-    @ManyToMany(targetEntity = Subject.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Subject.class)
     @JoinTable(name = "course_subject",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))

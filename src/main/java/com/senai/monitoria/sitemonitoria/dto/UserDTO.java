@@ -23,6 +23,10 @@ public class UserDTO {
         isActive = user.isActive();
     }
 
+    public User dtoToUser() {
+        return new User(id, name, email, password, securityLevel, phone, isActive);
+    }
+
     public UserDTO(long id, String name, String email, String password, SecurityLevel securityLevel, String phone, boolean isActive) {
         this.id = id;
         this.name = name;

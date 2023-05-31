@@ -1,6 +1,5 @@
 package com.senai.monitoria.sitemonitoria.entities;
 
-import com.senai.monitoria.sitemonitoria.dto.UserDTO;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
@@ -16,8 +15,11 @@ public class User {
     @NonNull
     @Column(name = "user_name")
     private String name;
+    @NonNull
     private String email;
+    @NonNull
     private String password;
+    @NonNull
     private SecurityLevel securityLevel;
     private String phone;
     private boolean isActive;
@@ -34,16 +36,6 @@ public class User {
         this.securityLevel = securityLevel;
         this.phone = phone;
         this.isActive = isActive;
-    }
-
-    public User(UserDTO userDTO) {
-        id = userDTO.getId();
-        name = userDTO.getName();
-        email = userDTO.getEmail();
-        password = userDTO.getPassword();
-        securityLevel = userDTO.getSecurityLevel();
-        phone = userDTO.getPhone();
-        isActive = userDTO.isActive();
     }
 
     public boolean isActive() {

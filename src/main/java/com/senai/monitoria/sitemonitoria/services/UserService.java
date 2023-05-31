@@ -5,7 +5,6 @@ import com.senai.monitoria.sitemonitoria.entities.User;
 import com.senai.monitoria.sitemonitoria.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,27 +14,36 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Transactional(readOnly = true)
     public List<UserDTO> findAll(){
         List<User> allUsersList = userRepository.findAll();
-        return allUsersList.stream().map(user -> new UserDTO(user)).toList();
+        return allUsersList.stream().map(UserDTO::new).toList();
     }
 
-    public UserDTO save(UserDTO userDTO){
-        User userToSave = new User(userDTO);
+    public void save(UserDTO userDTO){
+        User userToSave = userDTO.dtoToUser();
         User savedUser = userRepository.save(userToSave);
-        return new UserDTO(savedUser);
     }
 
-    @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         return new UserDTO(user);
     }
 
-    public UserDTO delete(Long id) {
-        UserDTO userDTO = findById(id);
+    public void delete(Long id) {
         userRepository.deleteById(id);
-        return userDTO;
     }
+
+    public void update(UserDTO userDTO, Long id) {
+        userRepository.findById(id).map(user -> {
+            user.setName(userDTO.getName());
+            user.setEmail(userDTO.getEmail());
+            user.setPassword(userDTO.getPassword());
+            user.setSecurityLevel(userDTO.getSecurityLevel());
+            user.setPhone(userDTO.getPhone());
+            user.setActive(userDTO.isActive());
+            User updatedUser = userRepository.save(user);
+            return new UserDTO(updatedUser);
+        }).orElseThrow();
+    }
+
 }

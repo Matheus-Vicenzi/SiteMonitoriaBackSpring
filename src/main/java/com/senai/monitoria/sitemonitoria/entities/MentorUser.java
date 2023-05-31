@@ -1,5 +1,6 @@
 package com.senai.monitoria.sitemonitoria.entities;
 
+import com.senai.monitoria.sitemonitoria.dto.MentorUserDTO;
 import jakarta.persistence.*;
 
 import java.util.GregorianCalendar;
@@ -14,7 +15,7 @@ public class MentorUser {
     private long mentorId;
     @OneToMany(mappedBy = "mentor")
     private List<MentoringEvent> mentorEvents;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "tb_subject",
             joinColumns = @JoinColumn(name = "mentor_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id")
@@ -36,6 +37,15 @@ public class MentorUser {
     }
 
     public MentorUser() {
+    }
+
+    public MentorUser(MentorUserDTO mentorUserDTO) {
+        mentorId = mentorUserDTO.getMentorId();
+        mentorEvents = mentorUserDTO.getMentorEvents();
+        subjects = mentorUserDTO.getSubjects();
+        mentoringStartDate = mentorUserDTO.getMentoringStartDate();
+        mentoringFinishDate = mentorUserDTO.getMentoringFinishDate();
+        user = mentorUserDTO.getUser();
     }
 
     public long getMentorId() {

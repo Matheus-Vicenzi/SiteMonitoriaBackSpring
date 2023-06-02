@@ -1,6 +1,7 @@
 package com.senai.monitoria.sitemonitoria.controllers;
 
 import com.senai.monitoria.sitemonitoria.dto.UserDTO;
+import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
 import com.senai.monitoria.sitemonitoria.services.UserService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
 
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
     @Autowired
@@ -21,64 +23,110 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        try{
+        try {
             List<UserDTO> users = userService.findAll();
             return Response.ok(users, "Usuários encontrados com sucesso!");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.error("Erro ao buscar usuários", HttpStatus.BAD_REQUEST);
+            return Response.error("Erro ao buscar usuários", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody UserDTO userDTO) {
-        try{
+        try {
             userService.save(userDTO);
             return Response.ok("Usuário cadastrado com sucesso!");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.error("Erro ao cadastrar usuário", HttpStatus.BAD_REQUEST);
+            return Response.error("Erro ao cadastrar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable Long id) {
-        try{
+        try {
             userService.update(userDTO, id);
             return Response.ok("Usuário atualizado com sucesso!");
-        }catch (Exception e){
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
-            return Response.error("Erro ao atualizar usuário", HttpStatus.BAD_REQUEST);
+            return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao atualizar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        try{
+        try {
             UserDTO userDTO = userService.findById(id);
             return Response.ok(userDTO, "Usuário encontrado com sucesso!");
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
             return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.error("Erro ao buscar usuário", HttpStatus.BAD_REQUEST);
+            return Response.error("Erro ao buscar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
-        try{
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
             userService.delete(id);
             return Response.ok("Usuário deletado com sucesso!");
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
             return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.error("Erro ao deletar usuário", HttpStatus.BAD_REQUEST);
         }
     }
 
+    @PutMapping(value = "/user-to-mentor/{id}")
+    public ResponseEntity<?> userToMentor(@PathVariable long id, @RequestBody UserToMentorDataDTO userToMentorDataDTO) {
+        try {
+            userService.userToMentor(id, userToMentorDataDTO);
+            return Response.ok("Usuário atualizado para monitor com sucesso!");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao atualizar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/user-to-admin/{id}")
+    public ResponseEntity<?> userToAdmin(@PathVariable long id) {
+        try {
+            userService.userToAdmin(id);
+            return Response.ok("Usuário atualizado para administrador com sucesso!");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao atualizar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping(value = "/user-to-student/{id}")
+    public ResponseEntity<?> userToStudent(@PathVariable long id){
+        try {
+            userService.userToStudent(id);
+            return Response.ok("Usuário atualizado para estudante com sucesso!");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return Response.error("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao atualizar usuário", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
+
+

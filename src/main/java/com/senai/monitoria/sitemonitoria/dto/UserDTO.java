@@ -2,7 +2,13 @@ package com.senai.monitoria.sitemonitoria.dto;
 
 import com.senai.monitoria.sitemonitoria.entities.SecurityLevel;
 import com.senai.monitoria.sitemonitoria.entities.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
+@Data
 public class UserDTO {
 
     private long id;
@@ -27,41 +33,4 @@ public class UserDTO {
         return new User(id, name, email, password, securityLevel, phone, isActive);
     }
 
-    public UserDTO(long id, String name, String email, String password, SecurityLevel securityLevel, String phone, boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.securityLevel = securityLevel;
-        this.phone = phone;
-        this.isActive = isActive;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public SecurityLevel getSecurityLevel() {
-        return securityLevel;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
 }

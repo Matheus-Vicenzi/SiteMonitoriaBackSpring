@@ -1,34 +1,43 @@
 package com.senai.monitoria.sitemonitoria.entities;
 
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Objects;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NonNull
     @Column(name = "user_name")
     private String name;
-    @NonNull
+    @Column(unique = true)
     private String email;
-    @NonNull
+    @Column(name = "user_password")
     private String password;
-    @NonNull
+    @ColumnDefault("2")
     private SecurityLevel securityLevel;
     private String phone;
+    @ColumnDefault("true")
     private boolean isActive;
+    @ManyToMany(targetEntity = Subject.class)
+    private List<Subject> mentoringSubjects;
+    @ManyToOne
+    private Course course;
+    @ColumnDefault("null")
+    private GregorianCalendar startMentoringDate;
+    private GregorianCalendar endMentoringDate;
 
-    public User() {
-    }
-
-    public User(long id, String name, String email, String password, SecurityLevel securityLevel, String phone,
-                boolean isActive) {
+    public User(long id, String name, String email, String password, SecurityLevel securityLevel, String phone, boolean isActive) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,82 +45,9 @@ public class User {
         this.securityLevel = securityLevel;
         this.phone = phone;
         this.isActive = isActive;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public SecurityLevel getSecurityLevel() {
-        return securityLevel;
-    }
-
-    public void setSecurityLevel(SecurityLevel securityLevel) {
-        this.securityLevel = securityLevel;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        this.mentoringSubjects = null;
+        this.course = null;
+        this.startMentoringDate = null;
+        this.endMentoringDate = null;
     }
 }

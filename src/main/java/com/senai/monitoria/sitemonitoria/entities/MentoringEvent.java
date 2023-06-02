@@ -1,19 +1,25 @@
 package com.senai.monitoria.sitemonitoria.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.GregorianCalendar;
 
 @Entity
 @Table(name = "tb_mentoring_event")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Data
 public class MentoringEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long mentoringEventId;
     @ManyToOne
-    private MentorUser mentor;
+    private User mentor;
     @ManyToOne
-    private StudentUser student;
+    private User student;
     private GregorianCalendar requestDate;
     private GregorianCalendar scheduleDate;
     @ManyToOne

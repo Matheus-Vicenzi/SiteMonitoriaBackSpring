@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Data
@@ -15,5 +16,5 @@ import java.util.List;
 public class UserToMentorDataDTO {
     private GregorianCalendar startMentoringDate;
     private GregorianCalendar endMentoringDate;
-    private List<Subject> mentoringSubjects;
+    private Set<Subject> mentoringSubjects;
 }

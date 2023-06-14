@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @Getter
 @Data
 public class UserDTO {
 
-    private long id;
+    private UUID id;
     private String name;
     private String email;
     private String password;

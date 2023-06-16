@@ -1,2 +1,5 @@
-package com.senai.monitoria.sitemonitoria.dto;public interface DTOInterface {
+package com.senai.monitoria.sitemonitoria.dto;
+
+public interface DTOInterface {
+    Object dtoToObject();
 }

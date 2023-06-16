@@ -6,10 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -17,12 +15,16 @@ import java.util.UUID;
 public class SubjectDTO {
     private UUID id;
     private String name;
-    private List<UserDTO> mentors;
+    private Set<UserDTO> mentors;
 
     public SubjectDTO(Subject subject) {
         id = subject.getId();
         name = subject.getName();
-        mentors = subject.getMentors().stream().map(UserDTO::new).toList();
+        mentors = subject
+                .getMentors()
+                .stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toCollection(HashSet::new));;
     }
 
     public Subject dtoToSubject(){

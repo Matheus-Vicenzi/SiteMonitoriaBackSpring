@@ -1,5 +1,6 @@
 package com.senai.monitoria.sitemonitoria.services;
 
+import com.senai.monitoria.sitemonitoria.dto.ConsultUserDTO;
 import com.senai.monitoria.sitemonitoria.dto.UserDTO;
 import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
 import com.senai.monitoria.sitemonitoria.entities.SecurityLevel;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -27,16 +28,18 @@ public class UserService {
         userRepository.save(userToSave);
     }
 
-    public UserDTO findById(Long id) {
+    public ConsultUserDTO findById(UUID id) {
         User user = userRepository.findById(id).orElseThrow();
-        return new UserDTO(user);
+        return new ConsultUserDTO(user);
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public void deactivate(UUID id) {
+        User user = userRepository.findById(id).orElseThrow();
+        user.setActive(false);
+        userRepository.save(user);
     }
 
-    public void update(UserDTO userDTO, Long id) {
+    public void update(UserDTO userDTO, UUID id) {
         userRepository.findById(id).map(user -> {
             user.setName(userDTO.getName());
             user.setEmail(userDTO.getEmail());
@@ -49,7 +52,7 @@ public class UserService {
         }).orElseThrow();
     }
 
-    public void userToMentor(Long id, UserToMentorDataDTO userToMentorDataDTO) {
+    public void userToMentor(UUID id, UserToMentorDataDTO userToMentorDataDTO) {
         userRepository.findById(id).map(user -> {
             user.setSecurityLevel(SecurityLevel.MENTOR);
             user.setStartMentoringDate(userToMentorDataDTO.getStartMentoringDate());
@@ -60,7 +63,7 @@ public class UserService {
         });
     }
 
-    public void userToAdmin(long id) {
+    public void userToAdmin(UUID id) {
         userRepository.findById(id).map(user -> {
             user.setSecurityLevel(SecurityLevel.ADMINISTRATOR);
             userRepository.save(user);
@@ -68,11 +71,15 @@ public class UserService {
         });
     }
 
-    public void userToStudent(long id) {
+    public void userToStudent(UUID id) {
         userRepository.findById(id).map(user -> {
             user.setSecurityLevel(SecurityLevel.STUDENT);
             userRepository.save(user);
             return user;
         });
+    }
+
+    public List<UserDTO> findActiveUsers() {
+        return userRepository.findActiveUsers().stream().map(UserDTO::new).toList();
     }
 }

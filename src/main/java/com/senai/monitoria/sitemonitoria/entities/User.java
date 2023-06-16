@@ -5,7 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")
@@ -15,29 +16,34 @@ import java.util.List;
 @Getter
 @Setter
 public class User {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "user_name")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    @Column(name = "user_name", nullable = false)
     private String name;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     @Column(name = "user_password")
     private String password;
     @ColumnDefault("2")
+    @Column(nullable = false)
     private SecurityLevel securityLevel;
     private String phone;
     @ColumnDefault("true")
     private boolean isActive;
     @ManyToMany(targetEntity = Subject.class)
-    private List<Subject> mentoringSubjects;
+    private Set<Subject> mentoringSubjects;
     @ManyToOne
     private Course course;
     @ColumnDefault("null")
     private GregorianCalendar startMentoringDate;
+    @ColumnDefault("null")
     private GregorianCalendar endMentoringDate;
 
-    public User(long id, String name, String email, String password, SecurityLevel securityLevel, String phone, boolean isActive) {
+    public User(UUID id, String name, String email, String password, SecurityLevel securityLevel, String phone, boolean isActive) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -49,5 +55,14 @@ public class User {
         this.course = null;
         this.startMentoringDate = null;
         this.endMentoringDate = null;
+    }
+
+    public User(UUID id, String name, String email, SecurityLevel securityLevel, String phone, boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.securityLevel = securityLevel;
+        this.phone = phone;
+        this.isActive = isActive;
     }
 }

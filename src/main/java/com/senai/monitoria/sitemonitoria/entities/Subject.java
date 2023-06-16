@@ -4,20 +4,31 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 
 @Entity
 @Table(name = "tb_subject")
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Data
 public class Subject {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_id")
-    private long subjectId;
-    private String subjectName;
-    @ManyToMany(mappedBy = "mentoringSubjects")
-    private List<User> mentors;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    @Column(nullable = false)
+    private String name;
+    @ManyToMany(targetEntity = User.class)
+    private Set<User> mentors;
+    @ManyToMany(targetEntity = Course.class)
+    @JoinTable(name = "tb_course_subject",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses;
 }

@@ -1,6 +1,9 @@
 package com.senai.monitoria.sitemonitoria.controllers;
 
+import com.senai.monitoria.sitemonitoria.dto.ConsultSubjectDTO;
+import com.senai.monitoria.sitemonitoria.dto.SaveSubjectDTO;
 import com.senai.monitoria.sitemonitoria.dto.SubjectDTO;
+import com.senai.monitoria.sitemonitoria.services.CourseService;
 import com.senai.monitoria.sitemonitoria.services.SubjectService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,7 @@ public class SubjectController {
     @GetMapping
     public ResponseEntity<?> findAll() {
         try{
-            List<SubjectDTO> allSubjects = subjectService.findAll();
+            List<ConsultSubjectDTO> allSubjects = subjectService.findAll();
             return Response.ok(allSubjects,"Matérias encontradas com sucesso!");
         }catch (Exception e){
             e.printStackTrace();
@@ -31,9 +34,9 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody SubjectDTO subjectDTO){
+    public ResponseEntity<?> save(@RequestBody SaveSubjectDTO saveSubjectDTO){
         try {
-            subjectService.save(subjectDTO);
+            subjectService.save(saveSubjectDTO);
             return Response.ok("Matéria salva com sucesso!");
         }catch (Exception e){
             e.printStackTrace();

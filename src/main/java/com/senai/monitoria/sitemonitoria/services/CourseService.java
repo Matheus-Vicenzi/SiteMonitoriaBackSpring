@@ -1,5 +1,6 @@
 package com.senai.monitoria.sitemonitoria.services;
 
+import com.senai.monitoria.sitemonitoria.dto.ConsultCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.CourseDTO;
 import com.senai.monitoria.sitemonitoria.entities.Course;
 import com.senai.monitoria.sitemonitoria.repositories.CourseRepository;
@@ -25,7 +26,7 @@ public class CourseService {
         return new CourseDTO(course);
     }
 
-    public List<CourseDTO> findAll() {
-        return courseRepository.findAll().stream().map(CourseDTO::new).toList();
+    public List<ConsultCourseDTO> findAll() {
+        return courseRepository.findAll().stream().map(ConsultCourseDTO::new).toList();
     }
 }

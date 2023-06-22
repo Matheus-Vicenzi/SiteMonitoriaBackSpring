@@ -33,6 +33,13 @@ public class ConsultMentoringEventDTO implements DTOInterface{
 
     @Override
     public MentoringEvent dtoToObject() {
-        return new MentoringEvent(mentorDTO.dtoToUser(), studentDTO.dtoToUser(), requestDate, scheduleDate, studentDescription, mentorDescription);
+        return new MentoringEvent(
+                mentorDTO.dtoToObject(),
+                studentDTO.dtoToObject(),
+                requestDate,
+                scheduleDate,
+                studentDescription,
+                mentorDescription
+        );
     }
 }

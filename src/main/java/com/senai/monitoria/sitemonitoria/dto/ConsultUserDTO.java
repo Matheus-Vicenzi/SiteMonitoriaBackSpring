@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Data
-public class ConsultUserDTO {
+public class ConsultUserDTO implements DTOInterface{
     private UUID id;
     private String name;
     private String email;
@@ -28,7 +28,8 @@ public class ConsultUserDTO {
         this.isActive = user.isActive();
     }
 
-    public User dtoToUser() {
+    @Override
+    public User dtoToObject() {
         return new User(id, name, email, securityLevel, phone, isActive);
     }
 }

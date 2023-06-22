@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public void save(UserDTO userDTO) {
-        User userToSave = userDTO.dtoToUser();
+        User userToSave = userDTO.dtoToObject();
         userRepository.save(userToSave);
     }
 

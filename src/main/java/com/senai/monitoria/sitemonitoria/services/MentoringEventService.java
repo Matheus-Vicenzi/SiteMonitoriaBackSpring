@@ -21,8 +21,8 @@ public class MentoringEventService {
 
     public void createMentoringEventSolicitation(CreateMentoringEventDTO createMentoringEventDTO, ConsultUserDTO userDTO, ConsultUserDTO studentUsetDTO)throws Exception{
         MentoringEvent mentoringEvent = new MentoringEvent();
-        mentoringEvent.setMentor(userDTO.dtoToUser());
-        mentoringEvent.setStudent(studentUsetDTO.dtoToUser());
+        mentoringEvent.setMentor(userDTO.dtoToObject());
+        mentoringEvent.setStudent(studentUsetDTO.dtoToObject());
         mentoringEvent.setStudentDescription(createMentoringEventDTO.getStudentDescription());
         mentoringEvent.setMentorDescription("");
         mentoringEvent.setRequestDate(TimeUtils.timestampToGregorianCalendar(createMentoringEventDTO.getRequestDate()));

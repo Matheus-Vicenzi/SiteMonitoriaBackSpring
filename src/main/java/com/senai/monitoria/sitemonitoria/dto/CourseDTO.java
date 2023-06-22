@@ -27,6 +27,6 @@ public class CourseDTO implements DTOInterface{
 
     @Override
     public Course dtoToObject() {
-        return new Course(id, courseName, new HashSet<>());
+        return new Course(id, courseName);
     }
 }

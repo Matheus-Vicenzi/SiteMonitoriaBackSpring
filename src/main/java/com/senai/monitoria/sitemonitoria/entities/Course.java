@@ -3,6 +3,7 @@ package com.senai.monitoria.sitemonitoria.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -27,4 +28,10 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects;
+
+    public Course(UUID id, String courseName) {
+        this.id = id;
+        this.courseName = courseName;
+    }
+
 }

@@ -12,10 +12,11 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 @Data
-public class SubjectDTO {
+public class SubjectDTO implements DTOInterface{
     private UUID id;
     private String name;
     private Set<UserDTO> mentors;
+    private Set<CourseDTO> courses;
 
     public SubjectDTO(Subject subject) {
         id = subject.getId();
@@ -24,11 +25,15 @@ public class SubjectDTO {
                 .getMentors()
                 .stream()
                 .map(UserDTO::new)
-                .collect(Collectors.toCollection(HashSet::new));;
+                .collect(Collectors.toCollection(HashSet::new));
+        courses = subject.getCourses()
+                .stream()
+                .map(CourseDTO::new)
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
-    public Subject dtoToSubject(){
-        return new Subject(id, name, new HashSet<>(), new HashSet<>());
+    @Override
+    public Object dtoToObject() {
+        throw new RuntimeException("Not implemented");
     }
-
 }

@@ -21,7 +21,7 @@ public class CourseDTO implements DTOInterface{
 
     public CourseDTO(Course course) {
         id = course.getId();
-        courseName = course.getCourseName();
+        courseName = course.getName();
         subjects = course.getSubjects().stream().map(SubjectDTO::new).collect(Collectors.toCollection(HashSet::new));
     }
 

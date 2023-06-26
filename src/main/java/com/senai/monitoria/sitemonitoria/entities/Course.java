@@ -22,16 +22,17 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String courseName;
+    @Column(unique = true)
+    private String name;
     @ManyToMany(targetEntity = Subject.class)
     @JoinTable(name = "tb_course_subject",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects;
 
-    public Course(UUID id, String courseName) {
+    public Course(UUID id, String name) {
         this.id = id;
-        this.courseName = courseName;
+        this.name = name;
     }
 
 }

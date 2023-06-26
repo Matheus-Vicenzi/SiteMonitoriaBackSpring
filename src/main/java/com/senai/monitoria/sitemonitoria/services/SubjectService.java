@@ -2,7 +2,6 @@ package com.senai.monitoria.sitemonitoria.services;
 
 import com.senai.monitoria.sitemonitoria.dto.ConsultSubjectDTO;
 import com.senai.monitoria.sitemonitoria.dto.SaveSubjectDTO;
-import com.senai.monitoria.sitemonitoria.dto.SubjectDTO;
 import com.senai.monitoria.sitemonitoria.entities.Course;
 import com.senai.monitoria.sitemonitoria.entities.Subject;
 import com.senai.monitoria.sitemonitoria.entities.User;
@@ -10,10 +9,7 @@ import com.senai.monitoria.sitemonitoria.repositories.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +27,13 @@ public class SubjectService {
     }
 
     public void save(SaveSubjectDTO saveSubjectDTO) {
-        Set<Course> courses = saveSubjectDTO.getCoursesId().stream().map(courseId ->
-                courseService.findById(courseId).dtoToObject()).collect(Collectors.toSet());
+        Set<Course> courses;
+        try {
+            courses = saveSubjectDTO.getCoursesId().stream().map(courseId ->
+                    courseService.findById(courseId).dtoToObject()).collect(Collectors.toSet());
+        } catch (NoSuchElementException e) {
+            throw new RuntimeException("Curso informado não encontrado");
+        }
         Subject subject = new Subject();
         subject.setName(saveSubjectDTO.getSubjectName());
         subject.setMentors(new HashSet<>());
@@ -50,4 +51,5 @@ public class SubjectService {
     public void delete(UUID id) {
         subjectRepository.deleteById(id);
     }
+
 }

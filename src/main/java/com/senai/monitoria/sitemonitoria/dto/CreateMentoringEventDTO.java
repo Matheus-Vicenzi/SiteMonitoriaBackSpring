@@ -9,15 +9,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Data
-public class CreateMentoringEventDTO implements DTOInterface{
+public class CreateMentoringEventDTO {
     private UUID mentorId;
     private UUID studentId;
     private String studentDescription;
     private String requestDate;
     private String scheduleDate;
 
-    @Override
-    public Object dtoToObject() {
-        throw new RuntimeException("Not implemented");
-    }
+
 }

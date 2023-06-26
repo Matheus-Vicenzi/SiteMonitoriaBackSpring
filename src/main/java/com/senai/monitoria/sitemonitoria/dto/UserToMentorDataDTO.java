@@ -13,13 +13,9 @@ import java.util.Set;
 @Getter
 @Data
 @AllArgsConstructor
-public class UserToMentorDataDTO implements DTOInterface{
+public class UserToMentorDataDTO {
+
     private GregorianCalendar startMentoringDate;
     private GregorianCalendar endMentoringDate;
     private Set<Subject> mentoringSubjects;
-
-    @Override
-    public Object dtoToObject() {
-        throw new RuntimeException("Not implemented");
-    }
 }

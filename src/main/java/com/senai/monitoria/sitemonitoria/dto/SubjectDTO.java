@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 @Data
-public class SubjectDTO implements DTOInterface{
+public class SubjectDTO {
     private UUID id;
     private String name;
     private Set<UserDTO> mentors;
@@ -32,8 +32,4 @@ public class SubjectDTO implements DTOInterface{
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
-    @Override
-    public Object dtoToObject() {
-        throw new RuntimeException("Not implemented");
-    }
 }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Data
 @Getter
-public class ConsultSubjectDTO implements DTOInterface{
+public class ConsultSubjectDTO {
     private UUID id;
     private String name;
     private Set<UUID> usersId;
@@ -27,8 +27,4 @@ public class ConsultSubjectDTO implements DTOInterface{
         this.coursesId = subject.getCourses().stream().map(Course::getId).collect(Collectors.toSet());
     }
 
-    @Override
-    public Object dtoToObject() {
-        throw new RuntimeException("Not implemented");
-    }
 }

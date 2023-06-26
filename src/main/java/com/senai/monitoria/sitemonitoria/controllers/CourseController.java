@@ -2,6 +2,7 @@ package com.senai.monitoria.sitemonitoria.controllers;
 
 import com.senai.monitoria.sitemonitoria.dto.ConsultCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.CourseDTO;
+import com.senai.monitoria.sitemonitoria.dto.ChangeCourseNameDTO;
 import com.senai.monitoria.sitemonitoria.services.CourseService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -53,6 +55,23 @@ public class CourseController {
         } catch (Exception e) {
             e.printStackTrace();
             return Response.error("Erro ao buscar curso", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "change-course-name")
+    public ResponseEntity<?> update(@RequestBody ChangeCourseNameDTO courseDTO) {
+        try {
+            courseService.save(courseDTO);
+            return Response.ok("Curso atualizado com sucesso!");
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return Response.error("Curso com este nome já cadastrado", HttpStatus.BAD_REQUEST);
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return Response.error("Curso não encontrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao atualizar curso", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

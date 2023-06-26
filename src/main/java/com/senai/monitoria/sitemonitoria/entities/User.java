@@ -26,13 +26,15 @@ public class User {
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(name = "user_password")
+    @Column(name = "user_password", nullable = false)
     private String password;
     @ColumnDefault("2")
     @Column(nullable = false)
     private SecurityLevel securityLevel;
+    @Column(nullable = false)
     private String phone;
     @ColumnDefault("true")
+    @Column(nullable = false)
     private boolean isActive;
     @ManyToMany(targetEntity = Subject.class)
     private Set<Subject> mentoringSubjects;

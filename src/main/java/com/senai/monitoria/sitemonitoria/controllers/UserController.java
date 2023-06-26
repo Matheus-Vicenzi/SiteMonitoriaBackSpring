@@ -5,6 +5,7 @@ import com.senai.monitoria.sitemonitoria.dto.UserDTO;
 import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
 import com.senai.monitoria.sitemonitoria.services.UserService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
+import com.senai.monitoria.sitemonitoria.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody UserDTO userDTO) {
         try {
+            userDTO.setPassword(SecurityUtils.encrypt(userDTO.getPassword()));
             userService.save(userDTO);
             return Response.ok("Usuário cadastrado com sucesso!");
         }catch (DataIntegrityViolationException e){

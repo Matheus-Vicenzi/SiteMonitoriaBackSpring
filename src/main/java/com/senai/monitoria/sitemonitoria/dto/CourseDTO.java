@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CourseDTO implements DTOInterface{
     private UUID id;
-    private String courseName;
+    private String name;
     private Set<SubjectDTO> subjects;
 
     public CourseDTO(Course course) {
         id = course.getId();
-        courseName = course.getName();
+        name = course.getName();
         subjects = course.getSubjects().stream().map(SubjectDTO::new).collect(Collectors.toCollection(HashSet::new));
     }
 
     @Override
     public Course dtoToObject() {
-        return new Course(id, courseName);
+        return new Course(id, name);
     }
 }

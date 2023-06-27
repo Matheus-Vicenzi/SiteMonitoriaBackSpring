@@ -35,7 +35,7 @@ public class SubjectService {
             throw new RuntimeException("Curso informado não encontrado");
         }
         Subject subject = new Subject();
-        subject.setName(saveSubjectDTO.getSubjectName());
+        subject.setName(saveSubjectDTO.getName());
         subject.setMentors(new HashSet<>());
         subject.setCourses(courses);
         subjectRepository.save(subject);

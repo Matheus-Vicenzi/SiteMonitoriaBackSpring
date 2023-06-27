@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class SaveSubjectDTO implements DTOInterface{
-    private String subjectName;
+    private String name;
     private Set<UUID> coursesId;
 
     @Override

@@ -1,9 +1,11 @@
 package com.senai.monitoria.sitemonitoria.services;
 
+import com.senai.monitoria.sitemonitoria.dto.AddSubjectToCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.ChangeCourseNameDTO;
 import com.senai.monitoria.sitemonitoria.dto.ConsultCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.CourseDTO;
 import com.senai.monitoria.sitemonitoria.entities.Course;
+import com.senai.monitoria.sitemonitoria.manager.CourseSubjectManager;
 import com.senai.monitoria.sitemonitoria.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private CourseSubjectManager courseSubjectManager;
 
     public void save(CourseDTO courseDTO) {
         Course course = courseDTO.dtoToObject();
@@ -36,4 +40,9 @@ public class CourseService {
         course.setName(course.getName());
         courseRepository.save(course);
     }
+
+    public void addSubjectToCourse(AddSubjectToCourseDTO addSubjectToCourseDTO) {
+        courseSubjectManager.addSubjectToCourse(addSubjectToCourseDTO);
+    }
+
 }

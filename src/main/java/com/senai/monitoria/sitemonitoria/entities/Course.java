@@ -3,10 +3,7 @@ package com.senai.monitoria.sitemonitoria.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_course")
@@ -14,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-@Data
+@EqualsAndHashCode(exclude = "subjects")
 public class Course {
 
     private static final long serialVersionUID = 1L;
@@ -25,14 +22,17 @@ public class Course {
     @Column(unique = true)
     private String name;
     @ManyToMany(targetEntity = Subject.class)
-    @JoinTable(name = "tb_course_subject",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private Set<Subject> subjects;
+    private Set<Subject> subjects = new HashSet<>();
 
-    public Course(UUID id, String name) {
-        this.id = id;
-        this.name = name;
+    public void addSubject(Subject subject) {
+        if (subject == null) {
+            throw new NullPointerException("Subject is null");
+        }
+        if (subjects == null) {
+            subjects = new HashSet<>();
+        }
+        subjects.add(subject);
+        subject.getCourses().add(this);
     }
 
 }

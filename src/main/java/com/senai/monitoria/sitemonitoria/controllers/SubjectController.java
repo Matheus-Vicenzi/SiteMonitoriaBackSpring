@@ -2,8 +2,6 @@ package com.senai.monitoria.sitemonitoria.controllers;
 
 import com.senai.monitoria.sitemonitoria.dto.ConsultSubjectDTO;
 import com.senai.monitoria.sitemonitoria.dto.SaveSubjectDTO;
-import com.senai.monitoria.sitemonitoria.dto.SubjectDTO;
-import com.senai.monitoria.sitemonitoria.services.CourseService;
 import com.senai.monitoria.sitemonitoria.services.SubjectService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,9 @@ public class SubjectController {
         try {
             subjectService.save(saveSubjectDTO);
             return Response.ok("Matéria salva com sucesso!");
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return Response.error("Curso não encontrado", HttpStatus.NOT_FOUND);
         }catch (Exception e){
             e.printStackTrace();
             return Response.error("Erro ao salvar a matéria", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -69,6 +70,20 @@ public class SubjectController {
         }catch (Exception e){
             e.printStackTrace();
             return Response.error("Erro ao deletar matéria", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable UUID id){
+        try {
+            ConsultSubjectDTO subject = subjectService.findById(id);
+            return Response.ok(subject,"Matéria encontrada com sucesso!");
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return Response.error("Matéria não encontrada", HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.error("Erro ao buscar matéria", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

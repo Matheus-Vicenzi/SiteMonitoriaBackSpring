@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 @Data
-public class SubjectDTO {
+public class SubjectDTO implements DTOInterface{
     private UUID id;
     private String name;
     private Set<UserDTO> mentors;
@@ -32,4 +32,11 @@ public class SubjectDTO {
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
+    public Subject dtoToObject() {
+        return new Subject(id,
+                name,
+                mentors.stream().map(UserDTO::dtoToObject).collect(Collectors.toSet()),
+                courses.stream().map(CourseDTO::dtoToObject).collect(Collectors.toSet())
+        );
+    }
 }

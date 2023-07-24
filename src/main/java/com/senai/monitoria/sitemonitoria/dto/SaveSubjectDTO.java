@@ -11,12 +11,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @Data
-public class SaveSubjectDTO implements DTOInterface{
+public class SaveSubjectDTO {
     private String name;
-    private Set<UUID> coursesId;
+    private UUID courseId;
 
-    @Override
-    public Subject dtoToObject() {
-        return new Subject();
-    }
 }

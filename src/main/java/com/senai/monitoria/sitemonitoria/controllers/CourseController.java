@@ -1,5 +1,6 @@
 package com.senai.monitoria.sitemonitoria.controllers;
 
+import com.senai.monitoria.sitemonitoria.dto.AddSubjectToCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.ConsultCourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.CourseDTO;
 import com.senai.monitoria.sitemonitoria.dto.ChangeCourseNameDTO;
@@ -72,6 +73,20 @@ public class CourseController {
         } catch (Exception e) {
             e.printStackTrace();
             return Response.error("Erro ao atualizar curso", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/add-subject")
+    public ResponseEntity<?> addSubjectToCourse(@RequestBody AddSubjectToCourseDTO addSubjectToCourseDTO) {
+        try {
+            courseService.addSubjectToCourse(addSubjectToCourseDTO);
+            return Response.ok("Matéria adicionada ao curso com sucesso!");
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return Response.error("Curso ou matéria não encontrados", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao adicionar matéria ao curso", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

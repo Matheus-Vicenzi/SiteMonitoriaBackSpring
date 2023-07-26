@@ -19,7 +19,7 @@ public class MentoringEventService {
     @Autowired
     private MentoringEventRepository mentoringEventRepository;
 
-    public void createMentoringEventSolicitation(CreateMentoringEventDTO createMentoringEventDTO, ConsultUserDTO userDTO, ConsultUserDTO studentUsetDTO)throws Exception{
+    public void createMentoringEventSolicitation(CreateMentoringEventDTO createMentoringEventDTO, ConsultUserDTO userDTO, ConsultUserDTO studentUsetDTO) throws Exception {
         MentoringEvent mentoringEvent = new MentoringEvent();
         mentoringEvent.setMentor(userDTO.dtoToObject());
         mentoringEvent.setStudent(studentUsetDTO.dtoToObject());
@@ -41,5 +41,12 @@ public class MentoringEventService {
 
     public List<ConsultMentoringEventDTO> findMentoringsByMentor(UUID mentorId) {
         return mentoringEventRepository.findMentoringsByMentor(mentorId).stream().map(ConsultMentoringEventDTO::new).toList();
+    }
+
+    public void changeMentoringStatus(UUID mentoringId, String mentoringEventStatusString) {
+        MentoringEventStatus mentoringEventStatus = MentoringEventStatus.valueOf(mentoringEventStatusString);
+        MentoringEvent mentoringEvent = mentoringEventRepository.findById(mentoringId).orElseThrow();
+        mentoringEvent.setMentoringEventStatus(mentoringEventStatus);
+        mentoringEventRepository.save(mentoringEvent);
     }
 }

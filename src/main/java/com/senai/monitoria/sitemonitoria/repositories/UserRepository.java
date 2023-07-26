@@ -11,4 +11,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.isActive = true")
     List<User> findActiveUsers();
+
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
 }

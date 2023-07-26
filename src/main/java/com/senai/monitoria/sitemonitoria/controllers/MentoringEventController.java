@@ -2,7 +2,6 @@ package com.senai.monitoria.sitemonitoria.controllers;
 
 import com.senai.monitoria.sitemonitoria.dto.ConsultUserDTO;
 import com.senai.monitoria.sitemonitoria.dto.CreateMentoringEventDTO;
-import com.senai.monitoria.sitemonitoria.dto.UserDTO;
 import com.senai.monitoria.sitemonitoria.services.MentoringEventService;
 import com.senai.monitoria.sitemonitoria.services.UserService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
@@ -72,6 +71,23 @@ public class MentoringEventController {
             e.printStackTrace();
             return Response.error("Erro ao buscar horários disponíveis", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping(value = "/change-status/{mentoringEventId}/{status}")
+    public ResponseEntity<?> changeMentoringStatus(@PathVariable UUID mentoringEventId, @PathVariable String status){
+        try{
+            mentoringEventService.changeMentoringStatus(mentoringEventId, status);
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return Response.error("Solicitação de monitoria não encontrada", HttpStatus.NOT_FOUND);
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            return Response.error("Status inválido", HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.error("Erro ao alterar status da solicitação de monitoria", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return Response.ok("Status da solicitação de monitoria alterado com sucesso");
     }
 
 }

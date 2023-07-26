@@ -1,6 +1,7 @@
 package com.senai.monitoria.sitemonitoria.services;
 
 import com.senai.monitoria.sitemonitoria.dto.ConsultUserDTO;
+import com.senai.monitoria.sitemonitoria.dto.LoginDTO;
 import com.senai.monitoria.sitemonitoria.dto.UserDTO;
 import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
 import com.senai.monitoria.sitemonitoria.entities.SecurityLevel;
@@ -82,4 +83,10 @@ public class UserService {
     public List<UserDTO> findActiveUsers() {
         return userRepository.findActiveUsers().stream().map(UserDTO::new).toList();
     }
+
+    public UserDTO findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return new UserDTO(user);
+    }
+
 }

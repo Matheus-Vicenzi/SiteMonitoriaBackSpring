@@ -1,12 +1,10 @@
 package com.senai.monitoria.sitemonitoria.services;
 
-import com.senai.monitoria.sitemonitoria.dto.ConsultUserDTO;
-import com.senai.monitoria.sitemonitoria.dto.LoginDTO;
-import com.senai.monitoria.sitemonitoria.dto.UserDTO;
-import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
+import com.senai.monitoria.sitemonitoria.dto.*;
 import com.senai.monitoria.sitemonitoria.entities.SecurityLevel;
 import com.senai.monitoria.sitemonitoria.entities.User;
 import com.senai.monitoria.sitemonitoria.repositories.UserRepository;
+import com.senai.monitoria.sitemonitoria.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,4 +87,15 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    public void changeUserLevel(ChangeUserLevelDTO changeUserLevelDTO) {
+        User user = userRepository.findById(changeUserLevelDTO.getId()).orElseThrow();
+        user.setSecurityLevel(changeUserLevelDTO.getSecurityLevel());
+        userRepository.save(user);
+    }
+
+    public void changePassword(LoginDTO loginDTO) {
+        User user = userRepository.findByEmail(loginDTO.getEmail());
+        user.setPassword(SecurityUtils.encrypt(loginDTO.getPassword()));
+        userRepository.save(user);
+    }
 }

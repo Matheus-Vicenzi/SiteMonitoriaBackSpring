@@ -73,6 +73,16 @@ public class MentoringEventController {
         }
     }
 
+    @GetMapping(value = "/get-mentoring-by-student/{studentId}")
+    public ResponseEntity<?> findMentoringByStudent(@PathVariable UUID studentId){
+        try{
+            return Response.ok(mentoringEventService.findMentoringsByStudent(studentId), "Monitorias encontradas com sucesso");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.error("Erro ao buscar horários disponíveis", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping(value = "/change-status/{mentoringEventId}/{status}")
     public ResponseEntity<?> changeMentoringStatus(@PathVariable UUID mentoringEventId, @PathVariable String status){
         try{

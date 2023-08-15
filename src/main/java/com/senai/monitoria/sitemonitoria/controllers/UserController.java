@@ -1,8 +1,6 @@
 package com.senai.monitoria.sitemonitoria.controllers;
 
-import com.senai.monitoria.sitemonitoria.dto.ConsultUserDTO;
-import com.senai.monitoria.sitemonitoria.dto.UserDTO;
-import com.senai.monitoria.sitemonitoria.dto.UserToMentorDataDTO;
+import com.senai.monitoria.sitemonitoria.dto.*;
 import com.senai.monitoria.sitemonitoria.services.UserService;
 import com.senai.monitoria.sitemonitoria.utils.Response;
 import com.senai.monitoria.sitemonitoria.utils.SecurityUtils;
@@ -139,6 +137,28 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return Response.error("Erro ao buscar usuários", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/change-user-level")
+    public ResponseEntity<?> changeUserStatus(@RequestBody ChangeUserLevelDTO changeUserLevelDTO){
+        try {
+            userService.changeUserLevel(changeUserLevelDTO);
+            return Response.ok("Nível de usuário alterado com sucesso!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao alterar nível de usuário", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody LoginDTO loginDTO){
+        try {
+            userService.changePassword(loginDTO);
+            return Response.ok("Senha alterada com sucesso!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("Erro ao alterar senha", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
